@@ -70,8 +70,9 @@ export function scoreAssessment(answers: Answers, goals: string[]): AssessmentRe
   });
 
   const overall = Math.round(scores.reduce((s, d) => s + d.score, 0) / scores.length);
-  const weakest = [...scores].sort((a, b) => a.score - b.score)[0];
-  const strongest = [...scores].sort((a, b) => b.score - a.score)[0];
+  const sorted = [...scores].sort((a, b) => a.score - b.score);
+  const weakest = sorted[0]!;
+  const strongest = sorted[sorted.length - 1]!;
 
   const summary =
     overall >= 70
