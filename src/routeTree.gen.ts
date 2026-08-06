@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CuestionarioRouteImport } from './routes/cuestionario'
 import { Route as RegistroRouteImport } from './routes/registro'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuestionarioRoute = CuestionarioRouteImport.update({
+  id: '/cuestionario',
+  path: '/cuestionario',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistroRoute = RegistroRouteImport.update({
@@ -25,27 +31,31 @@ const RegistroRoute = RegistroRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cuestionario': typeof CuestionarioRoute
   '/registro': typeof RegistroRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cuestionario': typeof CuestionarioRoute
   '/registro': typeof RegistroRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cuestionario': typeof CuestionarioRoute
   '/registro': typeof RegistroRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/registro'
+  fullPaths: '/' | '/cuestionario' | '/registro'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/registro'
-  id: '__root__' | '/' | '/registro'
+  to: '/' | '/cuestionario' | '/registro'
+  id: '__root__' | '/' | '/cuestionario' | '/registro'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CuestionarioRoute: typeof CuestionarioRoute
   RegistroRoute: typeof RegistroRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cuestionario': {
+      id: '/cuestionario'
+      path: '/cuestionario'
+      fullPath: '/cuestionario'
+      preLoaderRoute: typeof CuestionarioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registro': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CuestionarioRoute: CuestionarioRoute,
   RegistroRoute: RegistroRoute,
 }
 export const routeTree = rootRouteImport
