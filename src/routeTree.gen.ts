@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CuestionarioRouteImport } from './routes/cuestionario'
+import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as RecomendacionesRouteImport } from './routes/recomendaciones'
 import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as ReservaRouteImport } from './routes/reserva'
 import { Route as ResultadoRouteImport } from './routes/resultado'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +33,11 @@ const CuestionarioRoute = CuestionarioRouteImport.update({
   path: '/cuestionario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecomendacionesRoute = RecomendacionesRouteImport.update({
   id: '/recomendaciones',
   path: '/recomendaciones',
@@ -39,6 +46,11 @@ const RecomendacionesRoute = RecomendacionesRouteImport.update({
 const RegistroRoute = RegistroRouteImport.update({
   id: '/registro',
   path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservaRoute = ReservaRouteImport.update({
+  id: '/reserva',
+  path: '/reserva',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResultadoRoute = ResultadoRouteImport.update({
@@ -51,16 +63,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/cuestionario': typeof CuestionarioRoute
+  '/perfil': typeof PerfilRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/cuestionario': typeof CuestionarioRoute
+  '/perfil': typeof PerfilRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
 }
 export interface FileRoutesById {
@@ -68,8 +84,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/cuestionario': typeof CuestionarioRoute
+  '/perfil': typeof PerfilRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +96,30 @@ export interface FileRouteTypes {
     | '/'
     | '/chat'
     | '/cuestionario'
+    | '/perfil'
     | '/recomendaciones'
     | '/registro'
+    | '/reserva'
     | '/resultado'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/chat'
     | '/cuestionario'
+    | '/perfil'
     | '/recomendaciones'
     | '/registro'
+    | '/reserva'
     | '/resultado'
   id:
     | '__root__'
     | '/'
     | '/chat'
     | '/cuestionario'
+    | '/perfil'
     | '/recomendaciones'
     | '/registro'
+    | '/reserva'
     | '/resultado'
   fileRoutesById: FileRoutesById
 }
@@ -103,8 +127,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChatRoute: typeof ChatRoute
   CuestionarioRoute: typeof CuestionarioRoute
+  PerfilRoute: typeof PerfilRoute
   RecomendacionesRoute: typeof RecomendacionesRoute
   RegistroRoute: typeof RegistroRoute
+  ReservaRoute: typeof ReservaRoute
   ResultadoRoute: typeof ResultadoRoute
 }
 
@@ -131,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CuestionarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recomendaciones': {
       id: '/recomendaciones'
       path: '/recomendaciones'
@@ -143,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/registro'
       fullPath: '/registro'
       preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reserva': {
+      id: '/reserva'
+      path: '/reserva'
+      fullPath: '/reserva'
+      preLoaderRoute: typeof ReservaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resultado': {
@@ -159,8 +199,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChatRoute: ChatRoute,
   CuestionarioRoute: CuestionarioRoute,
+  PerfilRoute: PerfilRoute,
   RecomendacionesRoute: RecomendacionesRoute,
   RegistroRoute: RegistroRoute,
+  ReservaRoute: ReservaRoute,
   ResultadoRoute: ResultadoRoute,
 }
 export const routeTree = rootRouteImport
