@@ -10,37 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ChatRouteImport } from './routes/chat'
-import { Route as CuestionarioRouteImport } from './routes/cuestionario'
-import { Route as PerfilRouteImport } from './routes/perfil'
-import { Route as RecomendacionesRouteImport } from './routes/recomendaciones'
+import { Route as EvaluacionRouteImport } from './routes/evaluacion'
 import { Route as RegistroRouteImport } from './routes/registro'
-import { Route as ReservaRouteImport } from './routes/reserva'
-import { Route as ResultadoRouteImport } from './routes/resultado'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ChatRoute = ChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CuestionarioRoute = CuestionarioRouteImport.update({
-  id: '/cuestionario',
-  path: '/cuestionario',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PerfilRoute = PerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecomendacionesRoute = RecomendacionesRouteImport.update({
-  id: '/recomendaciones',
-  path: '/recomendaciones',
+const EvaluacionRoute = EvaluacionRouteImport.update({
+  id: '/evaluacion',
+  path: '/evaluacion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistroRoute = RegistroRouteImport.update({
@@ -48,90 +28,35 @@ const RegistroRoute = RegistroRouteImport.update({
   path: '/registro',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReservaRoute = ReservaRouteImport.update({
-  id: '/reserva',
-  path: '/reserva',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResultadoRoute = ResultadoRouteImport.update({
-  id: '/resultado',
-  path: '/resultado',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
-  '/cuestionario': typeof CuestionarioRoute
-  '/perfil': typeof PerfilRoute
-  '/recomendaciones': typeof RecomendacionesRoute
+  '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
-  '/reserva': typeof ReservaRoute
-  '/resultado': typeof ResultadoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
-  '/cuestionario': typeof CuestionarioRoute
-  '/perfil': typeof PerfilRoute
-  '/recomendaciones': typeof RecomendacionesRoute
+  '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
-  '/reserva': typeof ReservaRoute
-  '/resultado': typeof ResultadoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/chat': typeof ChatRoute
-  '/cuestionario': typeof CuestionarioRoute
-  '/perfil': typeof PerfilRoute
-  '/recomendaciones': typeof RecomendacionesRoute
+  '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
-  '/reserva': typeof ReservaRoute
-  '/resultado': typeof ResultadoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/chat'
-    | '/cuestionario'
-    | '/perfil'
-    | '/recomendaciones'
-    | '/registro'
-    | '/reserva'
-    | '/resultado'
+  fullPaths: '/' | '/evaluacion' | '/registro'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/chat'
-    | '/cuestionario'
-    | '/perfil'
-    | '/recomendaciones'
-    | '/registro'
-    | '/reserva'
-    | '/resultado'
-  id:
-    | '__root__'
-    | '/'
-    | '/chat'
-    | '/cuestionario'
-    | '/perfil'
-    | '/recomendaciones'
-    | '/registro'
-    | '/reserva'
-    | '/resultado'
+  to: '/' | '/evaluacion' | '/registro'
+  id: '__root__' | '/' | '/evaluacion' | '/registro'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChatRoute: typeof ChatRoute
-  CuestionarioRoute: typeof CuestionarioRoute
-  PerfilRoute: typeof PerfilRoute
-  RecomendacionesRoute: typeof RecomendacionesRoute
+  EvaluacionRoute: typeof EvaluacionRoute
   RegistroRoute: typeof RegistroRoute
-  ReservaRoute: typeof ReservaRoute
-  ResultadoRoute: typeof ResultadoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,32 +68,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cuestionario': {
-      id: '/cuestionario'
-      path: '/cuestionario'
-      fullPath: '/cuestionario'
-      preLoaderRoute: typeof CuestionarioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/perfil': {
-      id: '/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recomendaciones': {
-      id: '/recomendaciones'
-      path: '/recomendaciones'
-      fullPath: '/recomendaciones'
-      preLoaderRoute: typeof RecomendacionesRouteImport
+    '/evaluacion': {
+      id: '/evaluacion'
+      path: '/evaluacion'
+      fullPath: '/evaluacion'
+      preLoaderRoute: typeof EvaluacionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registro': {
@@ -178,32 +82,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistroRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reserva': {
-      id: '/reserva'
-      path: '/reserva'
-      fullPath: '/reserva'
-      preLoaderRoute: typeof ReservaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resultado': {
-      id: '/resultado'
-      path: '/resultado'
-      fullPath: '/resultado'
-      preLoaderRoute: typeof ResultadoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChatRoute: ChatRoute,
-  CuestionarioRoute: CuestionarioRoute,
-  PerfilRoute: PerfilRoute,
-  RecomendacionesRoute: RecomendacionesRoute,
+  EvaluacionRoute: EvaluacionRoute,
   RegistroRoute: RegistroRoute,
-  ReservaRoute: ReservaRoute,
-  ResultadoRoute: ResultadoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
