@@ -2,10 +2,10 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Sparkle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { actions, selectUser, useAppState } from "@/lib/mindguide/store";
+import { actions, selectUser, useAppState } from "@/lib/mc/store";
 
 const NAV = [
-  { to: "/cuestionario", label: "Evaluación" },
+  { to: "/evaluacion", label: "Evaluación" },
   { to: "/recomendaciones", label: "Recomendaciones" },
   { to: "/chat", label: "Chat IA" },
   { to: "/reserva", label: "Reservar" },
