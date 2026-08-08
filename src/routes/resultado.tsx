@@ -130,7 +130,7 @@ function ResultadoPage() {
               acompañamiento a lo que necesitas.
             </p>
             <Button className="mt-5" asChild>
-              <Link to="/consultas">
+              <Link to="/reserva">
                 Solicitar consulta <ArrowRight className="size-4" />
               </Link>
             </Button>
@@ -142,10 +142,10 @@ function ResultadoPage() {
             <Link to="/chat">Continuar con el asistente</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link to="/ejercicios">Ver todos los ejercicios</Link>
+            <Link to="/recomendaciones">Ver todos los ejercicios</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link to="/seguimiento">Ir a seguimiento</Link>
+            <Link to="/perfil">Ir a mi seguimiento</Link>
           </Button>
         </div>
       </div>
