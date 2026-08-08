@@ -2,13 +2,13 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Sparkle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { actions, selectUser, useAppState } from "@/lib/mindguide/store";
+import { actions, selectUser, useAppState } from "@/lib/mc/store";
 
 const NAV = [
-  { to: "/cuestionario", label: "Evaluación" },
-  { to: "/recomendaciones", label: "Recomendaciones" },
+  { to: "/evaluacion", label: "Evaluación" },
+  { to: "/recomendaciones", label: "Ejercicios" },
   { to: "/chat", label: "Chat IA" },
-  { to: "/reserva", label: "Reservar" },
+  { to: "/reserva", label: "Consulta" },
 ] as const;
 
 export function Brand() {
@@ -17,7 +17,7 @@ export function Brand() {
       <span className="grid size-9 place-items-center rounded-2xl bg-calm text-primary shadow-[var(--shadow-soft)]">
         <Sparkle className="size-4.5" strokeWidth={2.2} />
       </span>
-      <span className="font-display text-lg font-semibold tracking-tight">MindGuide AI</span>
+      <span className="font-display text-lg font-semibold tracking-tight">Mente Clara</span>
     </Link>
   );
 }
@@ -56,7 +56,7 @@ export function SiteHeader() {
             </Button>
           )}
           <Button size="sm" className="hidden sm:inline-flex" asChild>
-            <Link to="/cuestionario">Empezar</Link>
+            <Link to="/evaluacion">Empezar</Link>
           </Button>
 
           <Sheet>

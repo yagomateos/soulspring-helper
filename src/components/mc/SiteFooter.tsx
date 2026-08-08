@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div className="max-w-md space-y-3">
           <Brand />
           <p className="text-sm leading-relaxed text-muted-foreground">
-            MindGuide AI ofrece orientación basada en psicología con evidencia. No realiza
+            Mente Clara ofrece orientación supervisada por una psicóloga colegiada. No realiza
             diagnósticos ni sustituye la atención de un profesional de la salud mental.
           </p>
           <p className="text-xs text-muted-foreground">
@@ -17,7 +17,7 @@ export function SiteFooter() {
           </p>
         </div>
         <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground sm:flex-col">
-          <Link to="/cuestionario" className="hover:text-foreground">
+          <Link to="/evaluacion" className="hover:text-foreground">
             Evaluación
           </Link>
           <Link to="/chat" className="hover:text-foreground">

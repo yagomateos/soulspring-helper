@@ -1,24 +1,33 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CalendarHeart, MessageCircle } from "lucide-react";
-import { Disclaimer } from "@/components/mindguide/Disclaimer";
-import { PageShell, PageHeading } from "@/components/mindguide/PageShell";
-import { RecommendationCard } from "@/components/mindguide/RecommendationCard";
-import { ScoreBar } from "@/components/mindguide/ScoreBar";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Lightbulb, Sparkles } from "lucide-react";
+import { Disclaimer } from "@/components/mc/Disclaimer";
+import { ExerciseCard } from "@/components/mc/ExerciseCard";
+import { PageHeading, PageShell } from "@/components/mc/PageShell";
+import { ScoreBar } from "@/components/mc/ScoreBar";
 import { Button } from "@/components/ui/button";
-import { recommendFor } from "@/lib/mindguide/recommendations";
-import { actions, selectLatest, selectSaved, useAppState } from "@/lib/mindguide/store";
-
-const TITLE = "Tu resumen emocional — MindGuide AI";
-const DESC =
-  "Niveles estimados de ansiedad, estrés, autoestima y sueño a partir de tus respuestas, con recomendaciones prácticas personalizadas.";
+import { areaById } from "@/lib/mc/areas";
+import {
+  actions,
+  selectExercises,
+  selectLatest,
+  selectSaved,
+  useAppState,
+} from "@/lib/mc/store";
 
 export const Route = createFileRoute("/resultado")({
   head: () => ({
     meta: [
-      { title: TITLE },
-      { name: "description", content: DESC },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESC },
+      { title: "Tu orientación — Mente Clara" },
+      {
+        name: "description",
+        content:
+          "Resumen orientativo de tus respuestas, factores relacionados, recomendaciones iniciales y ejercicios sugeridos.",
+      },
+      { property: "og:title", content: "Tu orientación — Mente Clara" },
+      { property: "og:description", content: "Qué parece estar afectándote y qué puedes hacer ahora." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: ResultadoPage,
@@ -26,114 +35,119 @@ export const Route = createFileRoute("/resultado")({
 
 function ResultadoPage() {
   const result = useAppState(selectLatest);
+  const exercises = useAppState(selectExercises);
   const saved = useAppState(selectSaved);
 
   if (!result) {
     return (
       <PageShell>
-        <div className="mx-auto max-w-xl px-5 py-24 text-center">
-          <h1 className="text-3xl font-semibold">Aún no tienes resultados</h1>
-          <p className="mt-3 text-muted-foreground">
-            Completa el cuestionario para ver tu resumen emocional personalizado.
-          </p>
-          <Button variant="hero" size="lg" className="mt-7" asChild>
-            <Link to="/cuestionario">
-              Empezar evaluación <ArrowRight />
-            </Link>
+        <div className="mx-auto max-w-md px-5 py-24 text-center">
+          <h1 className="font-display text-2xl font-semibold">Aún no tienes una orientación</h1>
+          <p className="mt-2 text-muted-foreground">Completa el cuestionario para verla aquí.</p>
+          <Button className="mt-6" asChild>
+            <Link to="/evaluacion">Comenzar evaluación</Link>
           </Button>
         </div>
       </PageShell>
     );
   }
 
-  const recommendations = recommendFor(result);
+  const suggested = exercises.filter((e) => result.exerciseIds.includes(e.id));
+  const derive = result.triage === "HIGH" || result.triage === "MEDIUM";
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-5xl space-y-12 px-5 py-12 sm:py-16">
+      <div className="mx-auto max-w-4xl space-y-8 px-5 py-12">
         <PageHeading
-          eyebrow="Tu resultado"
-          title="Así se ve tu momento actual"
+          eyebrow={areaById(result.area)?.name}
+          title="Tu orientación"
           description={result.summary}
         />
 
-        <section className="animate-rise grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)]">
-          <div className="surface-card flex flex-col items-center justify-center gap-2 bg-calm p-8 text-center lg:w-64">
-            <p className="text-sm text-muted-foreground">Bienestar general</p>
-            <p className="font-display text-6xl font-semibold text-primary">{result.overall}</p>
-            <p className="text-sm text-muted-foreground">sobre 100</p>
-          </div>
-          <div className="surface-card grid gap-7 p-7 sm:grid-cols-2">
-            {result.scores.map((s) => (
-              <ScoreBar key={s.dimension} score={s} />
+        <Disclaimer />
+
+        <section className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
+          <h2 className="font-display text-lg font-semibold">Qué parece estar afectándote</h2>
+          <ul className="mt-4 space-y-2.5">
+            {result.aspects.map((a) => (
+              <li key={a} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
+                <Sparkles className="mt-0.5 size-4 shrink-0 text-primary" />
+                {a}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {result.factors.map((f) => (
+              <ScoreBar key={f.factor} label={f.label} score={f.score} />
             ))}
           </div>
         </section>
 
-        {result.goals.length > 0 ? (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">Tus objetivos</h2>
-            <div className="flex flex-wrap gap-2">
-              {result.goals.map((g) => (
-                <span
-                  key={g}
-                  className="rounded-full bg-primary-soft px-4 py-1.5 text-sm text-primary"
-                >
-                  {g}
-                </span>
+        <section className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
+            <h2 className="font-display text-lg font-semibold">Posibles factores relacionados</h2>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+              {result.related.map((r) => (
+                <li key={r}>· {r}</li>
               ))}
-            </div>
-          </section>
-        ) : null}
-
-        <Disclaimer />
-
-        <section className="space-y-6">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
-            <div>
-              <h2 className="text-2xl font-semibold">Recomendaciones para ti</h2>
-              <p className="mt-1 text-muted-foreground">
-                Ordenadas según las áreas que hoy piden más cuidado.
-              </p>
-            </div>
-            <Button variant="ghost" size="sm" className="shrink-0" asChild>
-              <Link to="/recomendaciones">Ver todas</Link>
-            </Button>
+            </ul>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {recommendations.map((r) => (
-              <RecommendationCard
-                key={r.id}
-                recommendation={r}
-                saved={saved.includes(r.id)}
-                onToggleSave={() => actions.toggleRecommendation(r.id)}
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)]">
+            <h2 className="flex items-center gap-2 font-display text-lg font-semibold">
+              <Lightbulb className="size-4 text-primary" /> Recomendaciones iniciales
+            </h2>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+              {result.recommendations.map((r) => (
+                <li key={r}>· {r}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-lg font-semibold">Ejercicios recomendados</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {suggested.map((e) => (
+              <ExerciseCard
+                key={e.id}
+                exercise={e}
+                saved={saved.includes(e.id)}
+                onToggleSave={() => actions.toggleSavedExercise(e.id)}
+                onComplete={() => actions.logExercise(e.id)}
               />
             ))}
           </div>
         </section>
 
-        <section className="grid gap-5 md:grid-cols-2">
-          <div className="surface-card space-y-3 p-7">
-            <MessageCircle className="size-5 text-primary" />
-            <h3 className="text-lg font-semibold">Habla con la IA</h3>
-            <p className="text-sm text-muted-foreground">
-              Explora lo que te pasa en una conversación tranquila y sin prisas.
+        {derive ? (
+          <section className="rounded-3xl border border-primary/30 bg-primary-soft/60 p-6">
+            <h2 className="font-display text-lg font-semibold">
+              Por las respuestas que has dado, puede ser recomendable hablar con un profesional.
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Una consulta con la psicóloga permite valorar tu situación con detalle y ajustar el
+              acompañamiento a lo que necesitas.
             </p>
-            <Button variant="soft" asChild>
-              <Link to="/chat">Abrir chat</Link>
+            <Button className="mt-5" asChild>
+              <Link to="/reserva">
+                Solicitar consulta <ArrowRight className="size-4" />
+              </Link>
             </Button>
-          </div>
-          <div className="surface-card space-y-3 bg-calm p-7">
-            <CalendarHeart className="size-5 text-primary" />
-            <h3 className="text-lg font-semibold">Habla con una psicóloga</h3>
-            <p className="text-sm text-muted-foreground">
-              Sesión online de 50 minutos con una profesional colegiada.
-            </p>
-            <Button variant="hero" asChild>
-              <Link to="/reserva">Reservar consulta</Link>
-            </Button>
-          </div>
-        </section>
+          </section>
+        ) : null}
+
+        <div className="flex flex-wrap gap-3">
+          <Button variant="soft" asChild>
+            <Link to="/chat">Continuar con el asistente</Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link to="/recomendaciones">Ver todos los ejercicios</Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link to="/perfil">Ir a mi seguimiento</Link>
+          </Button>
+        </div>
       </div>
     </PageShell>
   );
