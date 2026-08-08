@@ -13,7 +13,7 @@ export function Disclaimer({ className, compact }: { className?: string; compact
       <p className="text-sm leading-relaxed text-secondary-foreground">
         {compact
           ? "Esto es orientación, no un diagnóstico clínico."
-          : "Esta información es una orientación basada en tus respuestas, no un diagnóstico clínico. MindGuide AI no sustituye la valoración ni el acompañamiento de un psicólogo colegiado."}
+          : "Esta información es una orientación basada en tus respuestas, no un diagnóstico clínico. Mente Clara no sustituye la valoración ni el acompañamiento de un psicólogo colegiado."}
       </p>
     </div>
   );
