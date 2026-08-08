@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EvaluacionRouteImport } from './routes/evaluacion'
 import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as CuestionarioAreaRouteImport } from './routes/cuestionario.$area'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const RegistroRoute = RegistroRouteImport.update({
   path: '/registro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CuestionarioAreaRoute = CuestionarioAreaRouteImport.update({
+  id: '/cuestionario/$area',
+  path: '/cuestionario/$area',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
+  '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
+  '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/evaluacion': typeof EvaluacionRoute
   '/registro': typeof RegistroRoute
+  '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/evaluacion' | '/registro'
+  fullPaths: '/' | '/evaluacion' | '/registro' | '/cuestionario/$area'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/evaluacion' | '/registro'
-  id: '__root__' | '/' | '/evaluacion' | '/registro'
+  to: '/' | '/evaluacion' | '/registro' | '/cuestionario/$area'
+  id: '__root__' | '/' | '/evaluacion' | '/registro' | '/cuestionario/$area'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EvaluacionRoute: typeof EvaluacionRoute
   RegistroRoute: typeof RegistroRoute
+  CuestionarioAreaRoute: typeof CuestionarioAreaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cuestionario/$area': {
+      id: '/cuestionario/$area'
+      path: '/cuestionario/$area'
+      fullPath: '/cuestionario/$area'
+      preLoaderRoute: typeof CuestionarioAreaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,7 +106,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EvaluacionRoute: EvaluacionRoute,
   RegistroRoute: RegistroRoute,
+  CuestionarioAreaRoute: CuestionarioAreaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
