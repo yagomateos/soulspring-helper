@@ -51,7 +51,7 @@ function ChatPage() {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const thread = useMemo(
     () => threads.find((t) => t.id === threadId) ?? threads[0] ?? null,
@@ -60,7 +60,10 @@ function ChatPage() {
   const messages = thread?.messages ?? [];
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Baja solo el contenedor de mensajes (scrollTop), no scrollIntoView —
+    // ese método arrastra también el scroll de la página entera.
+    const el = listRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [messages.length, typing]);
 
   const send = async (raw: string) => {
@@ -130,7 +133,7 @@ function ChatPage() {
         </div>
 
         <div className="flex h-[65vh] max-h-[36rem] min-h-[26rem] flex-col rounded-[2rem] border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
-          <div className="flex-1 overflow-y-auto">
+          <div ref={listRef} className="flex-1 overflow-y-auto">
             {messages.length === 0 ? (
               <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
                 <span className="grid size-12 place-items-center rounded-3xl bg-calm text-primary">
@@ -170,7 +173,6 @@ function ChatPage() {
                   </div>
                 ))}
                 {typing ? <p className="text-sm text-muted-foreground">Escribiendo…</p> : null}
-                <div ref={endRef} />
               </div>
             )}
           </div>
