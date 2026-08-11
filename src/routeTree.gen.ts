@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as EvaluacionRouteImport } from './routes/evaluacion'
 import { Route as RecomendacionesRouteImport } from './routes/recomendaciones'
 import { Route as RegistroRouteImport } from './routes/registro'
@@ -20,6 +21,11 @@ import { Route as CuestionarioAreaRouteImport } from './routes/cuestionario.$are
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EvaluacionRoute = EvaluacionRouteImport.update({
@@ -55,6 +61,7 @@ const CuestionarioAreaRoute = CuestionarioAreaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chat'
     | '/evaluacion'
     | '/recomendaciones'
     | '/registro'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/chat'
     | '/evaluacion'
     | '/recomendaciones'
     | '/registro'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/evaluacion'
     | '/recomendaciones'
     | '/registro'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   EvaluacionRoute: typeof EvaluacionRoute
   RecomendacionesRoute: typeof RecomendacionesRoute
   RegistroRoute: typeof RegistroRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/evaluacion': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   EvaluacionRoute: EvaluacionRoute,
   RecomendacionesRoute: RecomendacionesRoute,
   RegistroRoute: RegistroRoute,
