@@ -5,7 +5,8 @@ import { Disclaimer } from "@/components/mc/Disclaimer";
 import { PageShell } from "@/components/mc/PageShell";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { generateReply, SUGGESTIONS } from "@/lib/mc/ai";
+import { generateAiReply } from "@/routes/-chat.functions";
+import { generateReply, isRiskMessage, RISK_REPLY, SUGGESTIONS, type AiContext } from "@/lib/mc/ai";
 import {
   actions,
   selectArea,
@@ -62,7 +63,7 @@ function ChatPage() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length, typing]);
 
-  const send = (raw: string) => {
+  const send = async (raw: string) => {
     const text = raw.trim();
     if (!text || typing) return;
 
@@ -80,24 +81,38 @@ function ChatPage() {
     setInput("");
     setTyping(true);
 
-    const history = [...messages, userMessage];
-    const reply = generateReply(text, {
-      area,
-      lastAssessment: latest,
-      history,
-      allowedExercises: exercises,
-      clinicalRules: rules,
-    });
-
-    window.setTimeout(() => {
+    const reply = (replyText: string) =>
       actions.appendMessage(id!, {
         id: uid(),
         role: "assistant",
-        text: reply.text,
+        text: replyText,
         createdAt: new Date().toISOString(),
       });
+
+    // Barrera de seguridad local: nunca depende de la red ni del proveedor de IA.
+    if (isRiskMessage(text)) {
+      reply(RISK_REPLY);
       setTyping(false);
-    }, 700);
+      return;
+    }
+
+    const context: AiContext = {
+      area,
+      lastAssessment: latest,
+      history: [...messages, userMessage],
+      allowedExercises: exercises,
+      clinicalRules: rules,
+    };
+
+    try {
+      const { text: aiText } = await generateAiReply({ data: { message: text, context } });
+      reply(aiText);
+    } catch (error) {
+      console.error("Gemini no respondió, usando orientación local", error);
+      reply(generateReply(text, context).text);
+    } finally {
+      setTyping(false);
+    }
   };
 
   return (
