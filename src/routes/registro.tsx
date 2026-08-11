@@ -6,7 +6,7 @@ import { PageShell } from "@/components/mc/PageShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { actions } from "@/lib/mc/store";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/registro")({
   head: () => ({
@@ -17,7 +17,10 @@ export const Route = createFileRoute("/registro")({
         content: "Crea tu cuenta para guardar tu evaluación, tus ejercicios y tu seguimiento.",
       },
       { property: "og:title", content: "Crear cuenta — Mente Clara" },
-      { property: "og:description", content: "Guarda tu evaluación y tu seguimiento en Mente Clara." },
+      {
+        property: "og:description",
+        content: "Guarda tu evaluación y tu seguimiento en Mente Clara.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -32,25 +35,42 @@ function RegistroPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const mapAuthError = (message: string) => {
+    if (/already registered|already exists/i.test(message))
+      return "Ya existe una cuenta con ese email.";
+    if (/invalid login credentials/i.test(message)) return "Email o contraseña incorrectos.";
+    if (/password should be at least/i.test(message)) return "La contraseña es demasiado corta.";
+    return "No hemos podido completar la operación. Inténtalo de nuevo.";
+  };
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
       toast.error("Necesitamos tu email y una contraseña.");
       return;
     }
-    actions.signIn({
-      name: name.trim() || email.split("@")[0] || "Invitado",
-      email: email.trim(),
-      provider: "email",
-    });
+    setSubmitting(true);
+    const { error } =
+      mode === "signup"
+        ? await supabase.auth.signUp({
+            email: email.trim(),
+            password,
+            ...(name.trim() ? { options: { data: { full_name: name.trim() } } } : {}),
+          })
+        : await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    setSubmitting(false);
+    if (error) {
+      toast.error(mapAuthError(error.message));
+      return;
+    }
     toast.success(mode === "signup" ? "Cuenta creada" : "Sesión iniciada");
     navigate({ to: "/evaluacion" });
   };
 
   const google = () => {
-    actions.signIn({ name: "Usuario Google", email: "usuario@gmail.com", provider: "google" });
-    toast.success("Sesión iniciada con Google");
-    navigate({ to: "/evaluacion" });
+    toast.info("Inicio de sesión con Google — próximamente");
   };
 
   return (
@@ -69,14 +89,20 @@ function RegistroPage() {
           </Button>
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" /> o con tu email <span className="h-px flex-1 bg-border" />
+            <span className="h-px flex-1 bg-border" /> o con tu email{" "}
+            <span className="h-px flex-1 bg-border" />
           </div>
 
           <form onSubmit={submit} className="space-y-4">
             {mode === "signup" ? (
               <div className="space-y-1.5">
                 <Label htmlFor="name">Nombre</Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tu nombre" />
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Tu nombre"
+                />
               </div>
             ) : null}
             <div className="space-y-1.5">
@@ -99,8 +125,8 @@ function RegistroPage() {
                 placeholder="••••••••"
               />
             </div>
-            <Button type="submit" className="w-full">
-              {mode === "signup" ? "Crear cuenta" : "Entrar"}
+            <Button type="submit" className="w-full" disabled={submitting}>
+              {submitting ? "Un momento…" : mode === "signup" ? "Crear cuenta" : "Entrar"}
             </Button>
           </form>
 

@@ -13,7 +13,6 @@ import type {
   ExerciseLog,
   MoodEntry,
   Question,
-  User,
 } from "./types";
 
 export const CONSULTATION_TYPES: ConsultationType[] = [
@@ -22,7 +21,8 @@ export const CONSULTATION_TYPES: ConsultationType[] = [
     name: "Primera consulta de orientación",
     minutes: 50,
     price: 55,
-    description: "Una sesión inicial para revisar tu situación y decidir juntos los siguientes pasos.",
+    description:
+      "Una sesión inicial para revisar tu situación y decidir juntos los siguientes pasos.",
   },
   {
     id: "seguimiento",
@@ -98,7 +98,6 @@ export const DEMO_USERS: PanelUser[] = [
 ];
 
 export type AppState = {
-  user: User | null;
   selectedArea: AreaId | null;
   assessments: AssessmentResult[];
   savedExercises: string[];
@@ -116,7 +115,6 @@ export type AppState = {
 const KEY = "menteclara.state.v1";
 
 const EMPTY: AppState = {
-  user: null,
   selectedArea: null,
   assessments: [],
   savedExercises: [],
@@ -169,12 +167,6 @@ function subscribe(listener: () => void) {
 const uid = (p: string) => `${p}_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
 export const actions = {
-  signIn(user: User) {
-    setState((s) => ({ ...s, user }));
-  },
-  signOut() {
-    setState((s) => ({ ...s, user: null }));
-  },
   selectArea(area: AreaId) {
     setState((s) => ({ ...s, selectedArea: area }));
   },
@@ -192,7 +184,10 @@ export const actions = {
   logExercise(exerciseId: string) {
     setState((s) => ({
       ...s,
-      exerciseLogs: [{ id: uid("log"), exerciseId, date: new Date().toISOString() }, ...s.exerciseLogs],
+      exerciseLogs: [
+        { id: uid("log"), exerciseId, date: new Date().toISOString() },
+        ...s.exerciseLogs,
+      ],
     }));
   },
   addMood(mood: number, note?: string) {
@@ -262,7 +257,6 @@ export function useAppState<T>(selector: (s: AppState) => T): T {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-export const selectUser = (s: AppState) => s.user;
 export const selectArea = (s: AppState) => s.selectedArea;
 export const selectAssessments = (s: AppState) => s.assessments;
 export const selectLatest = (s: AppState) => s.assessments[0] ?? null;

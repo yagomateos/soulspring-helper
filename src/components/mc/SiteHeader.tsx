@@ -1,14 +1,18 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Sparkle } from "lucide-react";
+import { PremiumBadge } from "@/components/mc/PremiumBadge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { actions, selectUser, useAppState } from "@/lib/mc/store";
+import { supabase } from "@/integrations/supabase/client";
+import { isPremium, useIsAdmin, useSession } from "@/lib/mc/session";
 
 const NAV = [
   { to: "/evaluacion", label: "Evaluación" },
+  { to: "/biblioteca", label: "Biblioteca" },
   { to: "/recomendaciones", label: "Ejercicios" },
   { to: "/chat", label: "Chat IA" },
   { to: "/reserva", label: "Consulta" },
+  { to: "/premium", label: "Premium" },
 ] as const;
 
 export function Brand() {
@@ -23,7 +27,8 @@ export function Brand() {
 }
 
 export function SiteHeader() {
-  const user = useAppState(selectUser);
+  const { user, profile } = useSession();
+  const isAdmin = useIsAdmin();
   const navigate = useNavigate();
 
   return (
@@ -48,13 +53,19 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center gap-2">
           {user ? (
             <Button variant="soft" size="sm" onClick={() => navigate({ to: "/perfil" })}>
-              {user.name.split(" ")[0]}
+              {(profile?.full_name || user.email || "Mi espacio").split(" ")[0]}
+              {isPremium(profile) ? <PremiumBadge className="ml-1.5" /> : null}
             </Button>
           ) : (
             <Button variant="soft" size="sm" className="hidden sm:inline-flex" asChild>
               <Link to="/registro">Entrar</Link>
             </Button>
           )}
+          {isAdmin ? (
+            <Button variant="ghost" size="sm" className="hidden sm:inline-flex" asChild>
+              <Link to="/admin">Panel</Link>
+            </Button>
+          ) : null}
           <Button size="sm" className="hidden sm:inline-flex" asChild>
             <Link to="/evaluacion">Empezar</Link>
           </Button>
@@ -68,7 +79,11 @@ export function SiteHeader() {
             <SheetContent side="right" className="w-[80vw] max-w-xs">
               <SheetTitle className="sr-only">Navegación</SheetTitle>
               <nav className="mt-10 flex flex-col gap-1 px-4">
-                {[...NAV, { to: "/perfil", label: "Mi perfil" } as const].map((item) => (
+                {[
+                  ...NAV,
+                  ...(isAdmin ? [{ to: "/admin", label: "Panel de administración" } as const] : []),
+                  { to: "/perfil", label: "Mi espacio" } as const,
+                ].map((item) => (
                   <Link
                     key={item.to}
                     to={item.to}
@@ -79,13 +94,16 @@ export function SiteHeader() {
                 ))}
                 {user ? (
                   <button
-                    onClick={() => actions.signOut()}
+                    onClick={() => void supabase.auth.signOut()}
                     className="rounded-2xl px-4 py-3 text-left text-base text-muted-foreground"
                   >
                     Cerrar sesión
                   </button>
                 ) : (
-                  <Link to="/registro" className="rounded-2xl px-4 py-3 text-base font-medium hover:bg-muted">
+                  <Link
+                    to="/registro"
+                    className="rounded-2xl px-4 py-3 text-base font-medium hover:bg-muted"
+                  >
                     Crear cuenta
                   </Link>
                 )}

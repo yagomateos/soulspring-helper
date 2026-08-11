@@ -10,19 +10,41 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BibliotecaRouteImport } from './routes/biblioteca'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as EvaluacionRouteImport } from './routes/evaluacion'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as ProgramasRouteImport } from './routes/programas'
 import { Route as RecomendacionesRouteImport } from './routes/recomendaciones'
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as ReservaRouteImport } from './routes/reserva'
 import { Route as ResultadoRouteImport } from './routes/resultado'
+import { Route as SeguimientoRouteImport } from './routes/seguimiento'
 import { Route as UrgenteRouteImport } from './routes/urgente'
+import { Route as AdminContenidoRouteImport } from './routes/admin.contenido'
+import { Route as AdminEjerciciosRouteImport } from './routes/admin.ejercicios'
+import { Route as AdminProgramasRouteImport } from './routes/admin.programas'
+import { Route as AdminRecomendacionesRouteImport } from './routes/admin.recomendaciones'
+import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
+import { Route as BibliotecaSlugRouteImport } from './routes/biblioteca.$slug'
 import { Route as CuestionarioAreaRouteImport } from './routes/cuestionario.$area'
+import { Route as ProgramasSlugRouteImport } from './routes/programas.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BibliotecaRoute = BibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatRoute = ChatRouteImport.update({
@@ -38,6 +60,16 @@ const EvaluacionRoute = EvaluacionRouteImport.update({
 const PerfilRoute = PerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PremiumRoute = PremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramasRoute = ProgramasRouteImport.update({
+  id: '/programas',
+  path: '/programas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecomendacionesRoute = RecomendacionesRouteImport.update({
@@ -60,102 +92,219 @@ const ResultadoRoute = ResultadoRouteImport.update({
   path: '/resultado',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SeguimientoRoute = SeguimientoRouteImport.update({
+  id: '/seguimiento',
+  path: '/seguimiento',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UrgenteRoute = UrgenteRouteImport.update({
   id: '/urgente',
   path: '/urgente',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminContenidoRoute = AdminContenidoRouteImport.update({
+  id: '/contenido',
+  path: '/contenido',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEjerciciosRoute = AdminEjerciciosRouteImport.update({
+  id: '/ejercicios',
+  path: '/ejercicios',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProgramasRoute = AdminProgramasRouteImport.update({
+  id: '/programas',
+  path: '/programas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRecomendacionesRoute = AdminRecomendacionesRouteImport.update({
+  id: '/recomendaciones',
+  path: '/recomendaciones',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AdminRoute,
+} as any)
+const BibliotecaSlugRoute = BibliotecaSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BibliotecaRoute,
 } as any)
 const CuestionarioAreaRoute = CuestionarioAreaRouteImport.update({
   id: '/cuestionario/$area',
   path: '/cuestionario/$area',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramasSlugRoute = ProgramasSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProgramasRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/biblioteca': typeof BibliotecaRouteWithChildren
   '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/programas': typeof ProgramasRouteWithChildren
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
   '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/seguimiento': typeof SeguimientoRoute
   '/urgente': typeof UrgenteRoute
+  '/admin/contenido': typeof AdminContenidoRoute
+  '/admin/ejercicios': typeof AdminEjerciciosRoute
+  '/admin/programas': typeof AdminProgramasRoute
+  '/admin/recomendaciones': typeof AdminRecomendacionesRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
+  '/biblioteca/$slug': typeof BibliotecaSlugRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
+  '/programas/$slug': typeof ProgramasSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/biblioteca': typeof BibliotecaRouteWithChildren
   '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/programas': typeof ProgramasRouteWithChildren
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
   '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/seguimiento': typeof SeguimientoRoute
   '/urgente': typeof UrgenteRoute
+  '/admin/contenido': typeof AdminContenidoRoute
+  '/admin/ejercicios': typeof AdminEjerciciosRoute
+  '/admin/programas': typeof AdminProgramasRoute
+  '/admin/recomendaciones': typeof AdminRecomendacionesRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
+  '/biblioteca/$slug': typeof BibliotecaSlugRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
+  '/programas/$slug': typeof ProgramasSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/biblioteca': typeof BibliotecaRouteWithChildren
   '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
   '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/programas': typeof ProgramasRouteWithChildren
   '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
   '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/seguimiento': typeof SeguimientoRoute
   '/urgente': typeof UrgenteRoute
+  '/admin/contenido': typeof AdminContenidoRoute
+  '/admin/ejercicios': typeof AdminEjerciciosRoute
+  '/admin/programas': typeof AdminProgramasRoute
+  '/admin/recomendaciones': typeof AdminRecomendacionesRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
+  '/biblioteca/$slug': typeof BibliotecaSlugRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
+  '/programas/$slug': typeof ProgramasSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/biblioteca'
     | '/chat'
     | '/evaluacion'
     | '/perfil'
+    | '/premium'
+    | '/programas'
     | '/recomendaciones'
     | '/registro'
     | '/reserva'
     | '/resultado'
+    | '/seguimiento'
     | '/urgente'
+    | '/admin/contenido'
+    | '/admin/ejercicios'
+    | '/admin/programas'
+    | '/admin/recomendaciones'
+    | '/admin/usuarios'
+    | '/biblioteca/$slug'
     | '/cuestionario/$area'
+    | '/programas/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
+    | '/biblioteca'
     | '/chat'
     | '/evaluacion'
     | '/perfil'
+    | '/premium'
+    | '/programas'
     | '/recomendaciones'
     | '/registro'
     | '/reserva'
     | '/resultado'
+    | '/seguimiento'
     | '/urgente'
+    | '/admin/contenido'
+    | '/admin/ejercicios'
+    | '/admin/programas'
+    | '/admin/recomendaciones'
+    | '/admin/usuarios'
+    | '/biblioteca/$slug'
     | '/cuestionario/$area'
+    | '/programas/$slug'
   id:
     | '__root__'
     | '/'
+    | '/admin'
+    | '/biblioteca'
     | '/chat'
     | '/evaluacion'
     | '/perfil'
+    | '/premium'
+    | '/programas'
     | '/recomendaciones'
     | '/registro'
     | '/reserva'
     | '/resultado'
+    | '/seguimiento'
     | '/urgente'
+    | '/admin/contenido'
+    | '/admin/ejercicios'
+    | '/admin/programas'
+    | '/admin/recomendaciones'
+    | '/admin/usuarios'
+    | '/biblioteca/$slug'
     | '/cuestionario/$area'
+    | '/programas/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  BibliotecaRoute: typeof BibliotecaRouteWithChildren
   ChatRoute: typeof ChatRoute
   EvaluacionRoute: typeof EvaluacionRoute
   PerfilRoute: typeof PerfilRoute
+  PremiumRoute: typeof PremiumRoute
+  ProgramasRoute: typeof ProgramasRouteWithChildren
   RecomendacionesRoute: typeof RecomendacionesRoute
   RegistroRoute: typeof RegistroRoute
   ReservaRoute: typeof ReservaRoute
   ResultadoRoute: typeof ResultadoRoute
+  SeguimientoRoute: typeof SeguimientoRoute
   UrgenteRoute: typeof UrgenteRoute
   CuestionarioAreaRoute: typeof CuestionarioAreaRoute
 }
@@ -167,6 +316,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/biblioteca': {
+      id: '/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof BibliotecaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat': {
@@ -188,6 +351,20 @@ declare module '@tanstack/react-router' {
       path: '/perfil'
       fullPath: '/perfil'
       preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programas': {
+      id: '/programas'
+      path: '/programas'
+      fullPath: '/programas'
+      preLoaderRoute: typeof ProgramasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recomendaciones': {
@@ -218,12 +395,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResultadoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seguimiento': {
+      id: '/seguimiento'
+      path: '/seguimiento'
+      fullPath: '/seguimiento'
+      preLoaderRoute: typeof SeguimientoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/urgente': {
       id: '/urgente'
       path: '/urgente'
       fullPath: '/urgente'
       preLoaderRoute: typeof UrgenteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/contenido': {
+      id: '/admin/contenido'
+      path: '/contenido'
+      fullPath: '/admin/contenido'
+      preLoaderRoute: typeof AdminContenidoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ejercicios': {
+      id: '/admin/ejercicios'
+      path: '/ejercicios'
+      fullPath: '/admin/ejercicios'
+      preLoaderRoute: typeof AdminEjerciciosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/programas': {
+      id: '/admin/programas'
+      path: '/programas'
+      fullPath: '/admin/programas'
+      preLoaderRoute: typeof AdminProgramasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/recomendaciones': {
+      id: '/admin/recomendaciones'
+      path: '/recomendaciones'
+      fullPath: '/admin/recomendaciones'
+      preLoaderRoute: typeof AdminRecomendacionesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/usuarios': {
+      id: '/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AdminUsuariosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/biblioteca/$slug': {
+      id: '/biblioteca/$slug'
+      path: '/$slug'
+      fullPath: '/biblioteca/$slug'
+      preLoaderRoute: typeof BibliotecaSlugRouteImport
+      parentRoute: typeof BibliotecaRoute
     }
     '/cuestionario/$area': {
       id: '/cuestionario/$area'
@@ -232,21 +458,85 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CuestionarioAreaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programas/$slug': {
+      id: '/programas/$slug'
+      path: '/$slug'
+      fullPath: '/programas/$slug'
+      preLoaderRoute: typeof ProgramasSlugRouteImport
+      parentRoute: typeof ProgramasRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminContenidoRoute: typeof AdminContenidoRoute
+  AdminEjerciciosRoute: typeof AdminEjerciciosRoute
+  AdminProgramasRoute: typeof AdminProgramasRoute
+  AdminRecomendacionesRoute: typeof AdminRecomendacionesRoute
+  AdminUsuariosRoute: typeof AdminUsuariosRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminContenidoRoute: AdminContenidoRoute,
+  AdminEjerciciosRoute: AdminEjerciciosRoute,
+  AdminProgramasRoute: AdminProgramasRoute,
+  AdminRecomendacionesRoute: AdminRecomendacionesRoute,
+  AdminUsuariosRoute: AdminUsuariosRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface BibliotecaRouteChildren {
+  BibliotecaSlugRoute: typeof BibliotecaSlugRoute
+}
+
+const BibliotecaRouteChildren: BibliotecaRouteChildren = {
+  BibliotecaSlugRoute: BibliotecaSlugRoute,
+}
+
+const BibliotecaRouteWithChildren = BibliotecaRoute._addFileChildren(
+  BibliotecaRouteChildren,
+)
+
+interface ProgramasRouteChildren {
+  ProgramasSlugRoute: typeof ProgramasSlugRoute
+}
+
+const ProgramasRouteChildren: ProgramasRouteChildren = {
+  ProgramasSlugRoute: ProgramasSlugRoute,
+}
+
+const ProgramasRouteWithChildren = ProgramasRoute._addFileChildren(
+  ProgramasRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  BibliotecaRoute: BibliotecaRouteWithChildren,
   ChatRoute: ChatRoute,
   EvaluacionRoute: EvaluacionRoute,
   PerfilRoute: PerfilRoute,
+  PremiumRoute: PremiumRoute,
+  ProgramasRoute: ProgramasRouteWithChildren,
   RecomendacionesRoute: RecomendacionesRoute,
   RegistroRoute: RegistroRoute,
   ReservaRoute: ReservaRoute,
   ResultadoRoute: ResultadoRoute,
+  SeguimientoRoute: SeguimientoRoute,
   UrgenteRoute: UrgenteRoute,
   CuestionarioAreaRoute: CuestionarioAreaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

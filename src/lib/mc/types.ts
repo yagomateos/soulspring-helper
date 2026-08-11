@@ -1,12 +1,6 @@
 export type AreaId = "ansiedad" | "animo" | "relaciones";
 
-export type Factor =
-  | "intensidad"
-  | "duracion"
-  | "frecuencia"
-  | "impacto"
-  | "eventos"
-  | "alarma";
+export type Factor = "intensidad" | "duracion" | "frecuencia" | "impacto" | "eventos" | "alarma";
 
 export type QuestionOption = { label: string; value: number };
 
@@ -47,12 +41,7 @@ export type AssessmentResult = {
 };
 
 export type ExerciseCategory =
-  | "respiracion"
-  | "ansiedad"
-  | "desescalada"
-  | "sueno"
-  | "diario"
-  | "relaciones";
+  "respiracion" | "ansiedad" | "desescalada" | "sueno" | "diario" | "relaciones";
 
 export type Exercise = {
   id: string;
@@ -103,5 +92,3 @@ export type Appointment = {
   time: string;
   createdAt: string;
 };
-
-export type User = { name: string; email: string; provider: "email" | "google" };

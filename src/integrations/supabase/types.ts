@@ -127,6 +127,135 @@ export type Database = {
         }
         Relationships: []
       }
+      content: {
+        Row: {
+          access_level: string
+          ai_allowed: boolean
+          category_id: string | null
+          created_at: string
+          description: string
+          duration_minutes: number | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          access_level?: string
+          ai_allowed?: boolean
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          duration_minutes?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          access_level?: string
+          ai_allowed?: boolean
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          duration_minutes?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "content_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_bodies: {
+        Row: {
+          body: string
+          content_id: string
+        }
+        Insert: {
+          body?: string
+          content_id: string
+        }
+        Update: {
+          body?: string
+          content_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_bodies_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: true
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      content_completions: {
+        Row: {
+          content_id: string
+          id: string
+          user_id: string
+          viewed_at: string
+        }
+        Insert: {
+          content_id: string
+          id?: string
+          user_id: string
+          viewed_at?: string
+        }
+        Update: {
+          content_id?: string
+          id?: string
+          user_id?: string
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_completions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversations: {
         Row: {
           area: string | null
@@ -180,6 +309,7 @@ export type Database = {
       }
       exercises: {
         Row: {
+          ai_allowed: boolean
           areas: Json
           category: string
           created_at: string
@@ -193,6 +323,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ai_allowed?: boolean
           areas?: Json
           category: string
           created_at?: string
@@ -206,6 +337,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ai_allowed?: boolean
           areas?: Json
           category?: string
           created_at?: string
@@ -263,6 +395,9 @@ export type Database = {
           id: string
           preferences: Json
           selected_area: string | null
+          subscription_end: string | null
+          subscription_start: string | null
+          subscription_status: string
           updated_at: string
         }
         Insert: {
@@ -272,6 +407,9 @@ export type Database = {
           id: string
           preferences?: Json
           selected_area?: string | null
+          subscription_end?: string | null
+          subscription_start?: string | null
+          subscription_status?: string
           updated_at?: string
         }
         Update: {
@@ -281,9 +419,169 @@ export type Database = {
           id?: string
           preferences?: Json
           selected_area?: string | null
+          subscription_end?: string | null
+          subscription_start?: string | null
+          subscription_status?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      programs: {
+        Row: {
+          access_level: string
+          category_id: string | null
+          created_at: string
+          description: string
+          duration_label: string | null
+          id: string
+          is_active: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          access_level?: string
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          duration_label?: string | null
+          id?: string
+          is_active?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          access_level?: string
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          duration_label?: string | null
+          id?: string
+          is_active?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "programs_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "content_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      program_enrollments: {
+        Row: {
+          id: string
+          program_id: string
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          program_id: string
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          program_id?: string
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "program_enrollments_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      program_session_completions: {
+        Row: {
+          completed_at: string
+          id: string
+          program_session_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          id?: string
+          program_session_id: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string
+          id?: string
+          program_session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "program_session_completions_program_session_id_fkey"
+            columns: ["program_session_id"]
+            isOneToOne: false
+            referencedRelation: "program_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      program_sessions: {
+        Row: {
+          content_id: string | null
+          exercise_id: string | null
+          id: string
+          program_id: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          content_id?: string | null
+          exercise_id?: string | null
+          id?: string
+          program_id: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          content_id?: string | null
+          exercise_id?: string | null
+          id?: string
+          program_id?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "program_sessions_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "program_sessions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "program_sessions_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       question_options: {
         Row: {
@@ -505,6 +803,42 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          id: string
+          provider: string
+          provider_customer_id: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          provider?: string
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          provider?: string
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -534,6 +868,12 @@ export type Database = {
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_premium: {
+        Args: {
           _user_id: string
         }
         Returns: boolean

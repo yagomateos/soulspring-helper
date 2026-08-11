@@ -1,214 +1,77 @@
-# Mindful Path AI
+# Mente Clara (MindGuide AI)
 
-Quiero crear una aplicación web moderna llamada MindGuide AI (nombre provisional).
+Aplicación web de orientación emocional: cuestionario guiado, recomendaciones basadas en evidencia, ejercicios prácticos y derivación a consulta con una psicóloga colegiada. **No sustituye un diagnóstico ni tratamiento profesional.**
 
-La aplicación ayudará a las personas con problemas comunes de salud mental mediante inteligencia artificial, siempre dejando claro que no sustituye la atención de un psicólogo.
+## Stack técnico
 
-Objetivo
+- [TanStack Start](https://tanstack.com/start) (React 19, file-based routing con TanStack Router)
+- [Vite](https://vite.dev/) + [Nitro](https://nitro.build/) para build/SSR
+- [Tailwind CSS v4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) (Radix UI primitives)
+- [Supabase](https://supabase.com/) (Postgres + Auth + Row Level Security)
+- [TanStack Query](https://tanstack.com/query) para data fetching
+- TypeScript, ESLint, Prettier
 
-Ayudar al usuario a entender mejor cómo se siente mediante un cuestionario inicial y ofrecer recomendaciones personalizadas basadas en psicología basada en evidencia.
+## Requisitos previos
 
-La aplicación finalizará invitando al usuario a reservar una consulta con una psicóloga.
+- Node.js 18+
+- Un proyecto de Supabase (o el proyecto Lovable Cloud ya vinculado a este repo)
 
-Público objetivo
+## Puesta en marcha
 
-Adultos.
-
-Funcionalidades del MVP
-
-Página de inicio
-
-Debe incluir:
-
- Hero moderno
-
- Explicación de cómo funciona
-
- Beneficios
-
- CTA para comenzar la evaluación
-
-Registro
-
-Permitir:
-
- Email
-
- Google Login
-
-Cuestionario
-
-Crear un cuestionario dividido en varios pasos.
-
-Debe preguntar sobre:
-
- Ansiedad
-
- Estado de ánimo
-
- Estrés
-
- Sueño
-
- Relaciones
-
- Autoestima
-
- Trabajo
-
- Objetivos personales
-
-Usar:
-
- Barras de progreso
-
- Botones grandes
-
- Diseño minimalista
-
-Resultado
-
-Al finalizar el cuestionario mostrar:
-
- Resumen emocional
-
- Nivel estimado de ansiedad
-
- Nivel de estrés
-
- Autoestima
-
- Hábitos de sueño
-
-Mostrar un mensaje indicando que es una orientación y no un diagnóstico.
-
-Recomendaciones
-
-Mostrar recomendaciones personalizadas como:
-
- Respiración
-
- Mindfulness
-
- Escribir un diario
-
- Paseos
-
- Organización del día
-
- Higiene del sueño
-
-Cada recomendación debe tener:
-
- Icono
-
- Explicación
-
- Tiempo estimado
-
-Chat IA
-
-Crear una pantalla de chat.
-
-La IA debe responder con empatía y hacer preguntas antes de dar recomendaciones.
-
-Añadir mensajes de ejemplo.
-
-El diseño debe parecer un chat moderno.
-
-Reserva de consulta
-
-Pantalla donde el usuario pueda reservar una sesión online con una psicóloga.
-
-Incluir:
-
- Calendario
-
- Duración
-
- Precio
-
- Botón "Reservar"
-
-Perfil
-
-Mostrar:
-
- Progreso
-
- Cuestionarios realizados
-
- Recomendaciones guardadas
-
- Próximas citas
-
-Diseño
-
-Quiero un diseño premium.
-
-Inspirarse en:
-
- Headspace
-
- Calm
-
- Apple Health
-
-Colores:
-
- Blanco
-
- Azul claro
-
- Verde suave
-
-Mucho espacio en blanco.
-
-Bordes redondeados.
-
-Animaciones suaves.
-
-Totalmente responsive.
-
-Tecnologías
-
-Usar:
-
- React
-
- TypeScript
-
- TailwindCSS
-
- Componentes reutilizables
-
- Arquitectura limpia
-
- Preparado para conectar posteriormente con Supabase y OpenAI API
-
-No usar datos reales; crear datos simulados para el MVP.
-
-Después de que Lovable genere esta primera versión, el siguiente paso sería conectar la IA de OpenAI y hacer que las respuestas se personalicen según el cuestionario del usuario. Ahí es donde el producto empieza a diferenciarse de un simple chatbot.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://soulspring-helper.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a8b8c844-6b8c-4a7d-be0d-85348765c1e9).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+```bash
+npm install
 npm run dev
 ```
+
+La app arranca en modo desarrollo con recarga en caliente (ver el puerto que imprime Vite en consola).
+
+## Variables de entorno
+
+Copia `.env` (o créalo) con las siguientes claves, obtenidas desde el panel de tu proyecto Supabase:
+
+```
+SUPABASE_PROJECT_ID=
+SUPABASE_URL=
+SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_PROJECT_ID=
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+```
+
+Las variables `VITE_*` se exponen al cliente (build-time); las que no llevan prefijo se usan solo en el servidor (SSR, server functions). Nunca añadas la `service_role key` con prefijo `VITE_`.
+
+## Scripts
+
+| Comando             | Descripción                                            |
+| ------------------- | ------------------------------------------------------ |
+| `npm run dev`       | Servidor de desarrollo con hot reload                  |
+| `npm run build`     | Build de producción                                    |
+| `npm run build:dev` | Build en modo desarrollo (útil para depurar el bundle) |
+| `npm run preview`   | Sirve el build de producción localmente                |
+| `npm run lint`      | ESLint sobre todo el repo                              |
+| `npm run format`    | Formatea el repo con Prettier                          |
+
+## Estructura del proyecto
+
+```
+src/
+  routes/              Páginas (file-based routing de TanStack Router)
+  components/
+    mc/                Componentes propios del producto (header, footer, cards, disclaimer...)
+    ui/                 Componentes shadcn/ui (Radix primitives)
+  lib/
+    mc/                 Dominio de la app: tipos, preguntas, ejercicios, triage, store de estado
+  integrations/supabase/ Clientes Supabase (browser, server, admin) y middleware de auth
+supabase/
+  migrations/           Migraciones SQL versionadas del esquema de base de datos
+```
+
+## Base de datos y seguridad
+
+El esquema vive en `supabase/migrations/`. Tablas principales: `profiles`, `questions`/`question_options`, `questionnaire_sessions`/`questionnaire_answers`, `assessment_results`, `exercises`/`exercise_completions`, `recommendations`, `risk_rules`, `ai_rules`, `conversations`/`messages`, `consultation_requests`, `user_roles`.
+
+Todas las tablas tienen **Row Level Security (RLS)** habilitada: cada usuario solo accede a sus propios datos; el rol `admin` (tabla `user_roles`) puede leer y gestionar contenido editorial (preguntas, ejercicios, recomendaciones, reglas). El cliente `service_role` (`client.server.ts`) solo debe usarse en código de servidor de confianza, nunca en rutas ni código que llegue al bundle del cliente.
+
+## Aviso
+
+Esta aplicación ofrece orientación emocional, no diagnóstico ni tratamiento clínico. Ante una urgencia, consulta los recursos de la pantalla `/urgente` o contacta con los servicios de emergencia.
