@@ -129,51 +129,51 @@ function ChatPage() {
           </p>
         </div>
 
-        <div className="flex min-h-[22rem] flex-col gap-4 rounded-[2rem] border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
-          {messages.length === 0 ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-4 py-8 text-center">
-              <span className="grid size-12 place-items-center rounded-3xl bg-calm text-primary">
-                <Sparkle className="size-5" />
-              </span>
-              <p className="max-w-sm text-sm text-muted-foreground">
-                Cuéntame qué te preocupa hoy. Puedes empezar por una de estas frases:
-              </p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => send(s)}
-                    className="rounded-full border border-border px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="flex-1 space-y-3">
-              {messages.map((m) => (
-                <div
-                  key={m.id}
-                  className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
-                >
-                  <p
-                    className={`animate-rise max-w-[85%] rounded-3xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${
-                      m.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground"
-                    }`}
-                  >
-                    {m.text}
-                  </p>
+        <div className="flex h-[65vh] max-h-[36rem] min-h-[26rem] flex-col rounded-[2rem] border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
+          <div className="flex-1 overflow-y-auto">
+            {messages.length === 0 ? (
+              <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
+                <span className="grid size-12 place-items-center rounded-3xl bg-calm text-primary">
+                  <Sparkle className="size-5" />
+                </span>
+                <p className="max-w-sm text-sm text-muted-foreground">
+                  Cuéntame qué te preocupa hoy. Puedes empezar por una de estas frases:
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => send(s)}
+                      className="rounded-full border border-border px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                    >
+                      {s}
+                    </button>
+                  ))}
                 </div>
-              ))}
-              {typing ? (
-                <p className="text-sm text-muted-foreground">Escribiendo…</p>
-              ) : null}
-              <div ref={endRef} />
-            </div>
-          )}
+              </div>
+            ) : (
+              <div className="space-y-3 pr-1">
+                {messages.map((m) => (
+                  <div
+                    key={m.id}
+                    className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+                  >
+                    <p
+                      className={`animate-rise max-w-[85%] rounded-3xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line ${
+                        m.role === "user"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-foreground"
+                      }`}
+                    >
+                      {m.text}
+                    </p>
+                  </div>
+                ))}
+                {typing ? <p className="text-sm text-muted-foreground">Escribiendo…</p> : null}
+                <div ref={endRef} />
+              </div>
+            )}
+          </div>
 
           <form
             onSubmit={(e) => {
