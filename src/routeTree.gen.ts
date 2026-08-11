@@ -10,9 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as EvaluacionRouteImport } from './routes/evaluacion'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as RecomendacionesRouteImport } from './routes/recomendaciones'
 import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as ReservaRouteImport } from './routes/reserva'
 import { Route as ResultadoRouteImport } from './routes/resultado'
+import { Route as UrgenteRouteImport } from './routes/urgente'
 import { Route as CuestionarioAreaRouteImport } from './routes/cuestionario.$area'
 
 const IndexRoute = IndexRouteImport.update({
@@ -20,9 +25,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EvaluacionRoute = EvaluacionRouteImport.update({
   id: '/evaluacion',
   path: '/evaluacion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecomendacionesRoute = RecomendacionesRouteImport.update({
+  id: '/recomendaciones',
+  path: '/recomendaciones',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistroRoute = RegistroRouteImport.update({
@@ -30,9 +50,19 @@ const RegistroRoute = RegistroRouteImport.update({
   path: '/registro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReservaRoute = ReservaRouteImport.update({
+  id: '/reserva',
+  path: '/reserva',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultadoRoute = ResultadoRouteImport.update({
   id: '/resultado',
   path: '/resultado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrgenteRoute = UrgenteRouteImport.update({
+  id: '/urgente',
+  path: '/urgente',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CuestionarioAreaRoute = CuestionarioAreaRouteImport.update({
@@ -43,46 +73,90 @@ const CuestionarioAreaRoute = CuestionarioAreaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
+  '/perfil': typeof PerfilRoute
+  '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/urgente': typeof UrgenteRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
+  '/perfil': typeof PerfilRoute
+  '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/urgente': typeof UrgenteRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/evaluacion': typeof EvaluacionRoute
+  '/perfil': typeof PerfilRoute
+  '/recomendaciones': typeof RecomendacionesRoute
   '/registro': typeof RegistroRoute
+  '/reserva': typeof ReservaRoute
   '/resultado': typeof ResultadoRoute
+  '/urgente': typeof UrgenteRoute
   '/cuestionario/$area': typeof CuestionarioAreaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/evaluacion' | '/registro' | '/resultado' | '/cuestionario/$area'
+    | '/'
+    | '/chat'
+    | '/evaluacion'
+    | '/perfil'
+    | '/recomendaciones'
+    | '/registro'
+    | '/reserva'
+    | '/resultado'
+    | '/urgente'
+    | '/cuestionario/$area'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/evaluacion' | '/registro' | '/resultado' | '/cuestionario/$area'
+  to:
+    | '/'
+    | '/chat'
+    | '/evaluacion'
+    | '/perfil'
+    | '/recomendaciones'
+    | '/registro'
+    | '/reserva'
+    | '/resultado'
+    | '/urgente'
+    | '/cuestionario/$area'
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/evaluacion'
+    | '/perfil'
+    | '/recomendaciones'
     | '/registro'
+    | '/reserva'
     | '/resultado'
+    | '/urgente'
     | '/cuestionario/$area'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   EvaluacionRoute: typeof EvaluacionRoute
+  PerfilRoute: typeof PerfilRoute
+  RecomendacionesRoute: typeof RecomendacionesRoute
   RegistroRoute: typeof RegistroRoute
+  ReservaRoute: typeof ReservaRoute
   ResultadoRoute: typeof ResultadoRoute
+  UrgenteRoute: typeof UrgenteRoute
   CuestionarioAreaRoute: typeof CuestionarioAreaRoute
 }
 
@@ -95,11 +169,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/evaluacion': {
       id: '/evaluacion'
       path: '/evaluacion'
       fullPath: '/evaluacion'
       preLoaderRoute: typeof EvaluacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recomendaciones': {
+      id: '/recomendaciones'
+      path: '/recomendaciones'
+      fullPath: '/recomendaciones'
+      preLoaderRoute: typeof RecomendacionesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registro': {
@@ -109,11 +204,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reserva': {
+      id: '/reserva'
+      path: '/reserva'
+      fullPath: '/reserva'
+      preLoaderRoute: typeof ReservaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resultado': {
       id: '/resultado'
       path: '/resultado'
       fullPath: '/resultado'
       preLoaderRoute: typeof ResultadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urgente': {
+      id: '/urgente'
+      path: '/urgente'
+      fullPath: '/urgente'
+      preLoaderRoute: typeof UrgenteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cuestionario/$area': {
@@ -128,9 +237,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   EvaluacionRoute: EvaluacionRoute,
+  PerfilRoute: PerfilRoute,
+  RecomendacionesRoute: RecomendacionesRoute,
   RegistroRoute: RegistroRoute,
+  ReservaRoute: ReservaRoute,
   ResultadoRoute: ResultadoRoute,
+  UrgenteRoute: UrgenteRoute,
   CuestionarioAreaRoute: CuestionarioAreaRoute,
 }
 export const routeTree = rootRouteImport
