@@ -1,10 +1,22 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Sparkle } from "lucide-react";
+import { LogOut, Menu, Sparkle, User } from "lucide-react";
+import { toast } from "sonner";
 import { PremiumBadge } from "@/components/mc/PremiumBadge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { supabase } from "@/integrations/supabase/client";
-import { isPremium, useIsAdmin, useSession } from "@/lib/mc/session";
+import { isPremium, signOut, useIsAdmin, useSession } from "@/lib/mc/session";
+
+async function handleSignOut() {
+  const error = await signOut();
+  if (error) toast.error("No se ha podido cerrar la sesión. Inténtalo de nuevo.");
+}
 
 const NAV = [
   { to: "/evaluacion", label: "Evaluación" },
@@ -52,10 +64,23 @@ export function SiteHeader() {
 
         <div className="flex shrink-0 items-center gap-2">
           {user ? (
-            <Button variant="soft" size="sm" onClick={() => navigate({ to: "/perfil" })}>
-              {(profile?.full_name || user.email || "Mi espacio").split(" ")[0]}
-              {isPremium(profile) ? <PremiumBadge className="ml-1.5" /> : null}
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="soft" size="sm">
+                  {(profile?.full_name || user.email || "Mi espacio").split(" ")[0]}
+                  {isPremium(profile) ? <PremiumBadge className="ml-1.5" /> : null}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate({ to: "/perfil" })}>
+                  <User /> Mi Espacio
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => void handleSignOut()}>
+                  <LogOut /> Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Button variant="soft" size="sm" className="hidden sm:inline-flex" asChild>
               <Link to="/registro">Entrar</Link>
@@ -94,7 +119,7 @@ export function SiteHeader() {
                 ))}
                 {user ? (
                   <button
-                    onClick={() => void supabase.auth.signOut()}
+                    onClick={() => void handleSignOut()}
                     className="rounded-2xl px-4 py-3 text-left text-base text-muted-foreground"
                   >
                     Cerrar sesión

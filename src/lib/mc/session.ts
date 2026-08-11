@@ -85,6 +85,12 @@ export function isPremium(profile: Profile | null | undefined) {
   return profile?.subscription_status === "PREMIUM";
 }
 
+/** Cierra sesión y devuelve el error de Supabase si lo hay, en vez de fallar en silencio. */
+export async function signOut() {
+  const { error } = await supabase.auth.signOut();
+  return error;
+}
+
 /** Solo protege la UI (mostrar/ocultar el panel); la seguridad real es la RLS de cada tabla. */
 export function useIsAdmin() {
   const { user } = useAuthUser();

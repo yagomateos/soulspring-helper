@@ -6,10 +6,9 @@ import { Disclaimer } from "@/components/mc/Disclaimer";
 import { PageHeading, PageShell } from "@/components/mc/PageShell";
 import { PremiumStatusCard } from "@/components/mc/PremiumStatusCard";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { areaById } from "@/lib/mc/areas";
 import { fetchContentCompletionsCount } from "@/lib/data/content";
-import { useSession } from "@/lib/mc/session";
+import { signOut, useSession } from "@/lib/mc/session";
 import { TRIAGE_LABELS } from "@/lib/mc/triage";
 import {
   actions,
@@ -298,7 +297,13 @@ function PerfilPage() {
         </section>
 
         {user ? (
-          <Button variant="soft" onClick={() => void supabase.auth.signOut()}>
+          <Button
+            variant="soft"
+            onClick={async () => {
+              const error = await signOut();
+              if (error) toast.error("No se ha podido cerrar la sesión. Inténtalo de nuevo.");
+            }}
+          >
             Cerrar sesión
           </Button>
         ) : (
