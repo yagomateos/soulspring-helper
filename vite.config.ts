@@ -7,6 +7,10 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Hard-pin the Vercel preset for builds outside the Lovable sandbox (e.g. `vercel build`),
+  // which otherwise default to Cloudflare. See node_modules/@lovable.dev/vite-tanstack-config
+  // for the auto-detection rules this overrides.
+  nitro: { preset: "vercel" },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
