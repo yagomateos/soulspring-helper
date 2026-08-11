@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Disclaimer } from "@/components/mc/Disclaimer";
 import { PageShell } from "@/components/mc/PageShell";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,13 @@ function CuestionarioPage() {
   const exercises = useAppState(selectExercises);
   const [answers, setAnswers] = useState<Answers>({});
   const [stepIndex, setStepIndex] = useState(0);
+
+  // Sube al principio de la página en cada cambio de paso (adelante o atrás),
+  // una vez que el nuevo paso ya se ha pintado — evita que el scroll-al-foco
+  // del navegador (al pulsar el botón) deje la página a mitad de camino.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [stepIndex]);
 
   const valid = isAreaId(area);
   const areaId = (valid ? area : "ansiedad") as AreaId;
@@ -98,7 +105,6 @@ function CuestionarioPage() {
   const next = () => {
     if (stepIndex < steps.length - 1) {
       setStepIndex((i) => i + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       finish();
     }
